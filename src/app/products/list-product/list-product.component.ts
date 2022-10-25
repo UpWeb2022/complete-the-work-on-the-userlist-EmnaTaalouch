@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-list-product',
   templateUrl: './list-product.component.html',
-  styleUrls: ['./list-product.component.css']
+  styleUrls: ['./list-product.component.css'],
 })
 export class ListProductComponent implements OnInit {
   public title: String;
@@ -15,11 +15,12 @@ export class ListProductComponent implements OnInit {
   public all: Product[];
   public priceMax: number;
   public category: String;
-  public stock:number;
-  constructor(private productService: ProductService,
+  public stock: number;
+  constructor(
+    private productService: ProductService,
     private route: ActivatedRoute,
-    private statsService:StatsService ) {
-  }
+    private statsService: StatsService
+  ) {}
   ngOnInit(): void {
     this.title = 'MyStore App';
     //get the list from the service
@@ -29,33 +30,37 @@ export class ListProductComponent implements OnInit {
       (params) => {
         this.category = params['category'];
         if (this.category != null) {
-          this.list = this.all.filter((product) => product.category == this.category)
+          this.list = this.all.filter(
+            (product) => product.category == this.category
+          );
         } else {
-          this.list = this.all
+          this.list = this.all;
         }
       },
-      () => { console.log('error') },
-      () => { console.log('complete') }
-    )
+      () => {
+        console.log('error');
+      },
+      () => {
+        console.log('complete');
+      }
+    );
   }
 
-  outStock(){
-
-   this.stock = this.statsService.getCount(this.all,"quantity",0);
+  outStock() {
+    this.stock = this.statsService.getCount(this.all, 'quantity', 0);
   }
-
 
   incrementLike(product: Product): void {
     let i = this.list.indexOf(product);
     if (i != -1) {
-      this.list[i].nbrLike++
+      this.list[i].nbrLike++;
       //cnx to  backend side
     }
   }
   buyProduct(product: Product): void {
     let i = this.list.indexOf(product);
     if (i != -1) {
-      this.list[i].quantity--
+      this.list[i].quantity--;
       //cnx to  backend side
     }
   }
